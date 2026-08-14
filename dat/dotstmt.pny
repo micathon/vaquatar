@@ -4,12 +4,15 @@ gdefun (var ga gb) do (
   f 1;
   println "gdefun: btm";
 );
-defun (f x) (var a b g) do (
+defun (f x) (var a b g y) do (
   println "f: top";
   : a b (g 0 x);
+  println "f: mid";
+  #set x (: a (g x 99));
   println "f: btm";
 );
 defun (g y x) do (
   println "g: top";
+  return 0;
 )
 
