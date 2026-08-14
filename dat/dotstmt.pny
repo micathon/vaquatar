@@ -1,0 +1,15 @@
+do (
+gdefun (var ga gb) do (
+  println "gdefun: top";
+  f 1;
+  println "gdefun: btm";
+);
+defun (f x) (var a b g) do (
+  println "f: top";
+  : a b (g 0 x);
+  println "f: btm";
+);
+defun (g y x) do (
+  println "g: top";
+)
+
