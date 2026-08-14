@@ -589,6 +589,7 @@ public class RunScanner implements IConst, RunConst {
 		case RETURN: return scopeRtnStmt(node);
 		case UTPUSH: return scopeUtPushStmt(node);
 		case UTSCAN: return scopeUtScanStmt(node);
+		case DOT: return scopeDotStmt(node);
 		case IF: return scopeIfStmt(node);
 		case WHILE: return scopeWhileStmt(node);
 		case FOR: return scopeForStmt(node);
@@ -1052,6 +1053,65 @@ public class RunScanner implements IConst, RunConst {
 		}
 		return rtnval;
 	}
+
+	private boolean scopeDotStmt(Node node) {
+		int rightp;
+		int downp;
+		int count = 0;
+		NodeCellTyp celltyp;
+		
+		omsg("scopeDotStmt: top");
+		rightp = node.getRightp();
+		if (rightp <= 0) {
+			return false;
+		}
+		node = store.getNode(rightp);
+		celltyp = node.getDownCellTyp();
+		if (celltyp != NodeCellTyp.ID) {
+			return false;
+		}
+		while (true) {
+			rightp = node.getRightp();
+			if (rightp <= 0) {
+				break;
+			}
+			count++;
+			node = store.getNode(rightp);
+			celltyp = node.getDownCellTyp();
+			if (celltyp == NodeCellTyp.ID) {
+				continue;
+			}
+			if (celltyp != NodeCellTyp.PTR) {
+				return false;
+			}
+			rightp = node.getDownp();
+			if (!scopeFuncExpr(rightp)) {
+				return false;
+			}
+		}
+		return (count > 0);
+	}
+	
+	private boolean scopeFuncExpr(int rightp) {
+		Node node;
+		NodeCellTyp celltyp;
+		
+		node = store.getNode(rightp);
+		celltyp = node.getDownCellTyp();
+		if (celltyp != NodeCellTyp.FUNC) {
+			return false;
+		}
+		while (true) {
+			rightp = node.getRightp();
+			if (rightp <= 0) {
+				return true;
+			}
+			if (!scopeExpr(rightp)) {
+				return false;
+			}
+			node = store.getNode(rightp);
+		}
+	}
 	
 	private boolean scopeLocVar(int rightp) {
 		return scopeLocVarRtn(rightp, false);
@@ -1127,7 +1187,7 @@ public class RunScanner implements IConst, RunConst {
 		name = 'i' + gname + ' ' + varName;
 		value = rt.glbLocVarMap.get(name);
 		if (value == null) {
-			return false;
+			return false; // always?
 		}
 		varidx = (int)value;
 		doScopeLocVar(node, rightp, varidx);
