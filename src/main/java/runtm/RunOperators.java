@@ -69,6 +69,11 @@ public class RunOperators implements IConst, RunConst {
 			return runSwixExpr(kwtyp);
 		case CASE:
 			return 0;
+		case DOT:
+			if (rt.getLocDepth() == 0) {
+				break;
+			}
+			return runSetAsExpr(kwtyp);
 		case EQ:
 		case NE:
 		case LT:
@@ -76,13 +81,21 @@ public class RunOperators implements IConst, RunConst {
 		case GE:
 		case GT:
 			return runComparExpr(kwtyp);
-		default:
-			omsg("handleExprKwdRtn: kwtyp = " + kwtyp);
-			return NEGBASEVAL - kwtyp.ordinal();
 		}
+		omsg("handleExprKwdRtn: kwtyp = " + kwtyp);
+		return NEGBASEVAL - kwtyp.ordinal();
 	}
 
 	public int runSetStmt(KeywordTyp kwtyp) {
+		return runSetStmtRtn(kwtyp, false);
+	}
+
+	public int runSetAsExpr(KeywordTyp kwtyp) {
+		// just temporary until dot-expr is implemented
+		return runSetStmtRtn(kwtyp, true);
+	}
+
+	private int runSetStmtRtn(KeywordTyp kwtyp, boolean isExpr) {
 		int stkidx;
 		AddrNode srcNode;
 		AddrNode destNode;
@@ -95,9 +108,13 @@ public class RunOperators implements IConst, RunConst {
 		String sval = "";
 		boolean isLong = false;
 		boolean isDup = true;
+		boolean isSetStmt;
 		
 		omsg("runSetStmt: top");
-		if (kwtyp != KeywordTyp.SET) {
+		isSetStmt = 
+			(kwtyp == KeywordTyp.SET) 
+			|| (kwtyp == KeywordTyp.DOT); // just temp.
+		if (!isSetStmt) {
 			return runOpSetStmt(kwtyp);
 		}
 		srcNode = store.popNode(); 
@@ -172,6 +189,10 @@ public class RunOperators implements IConst, RunConst {
 		store.writeNodeRtn(stkidx, addr, pgtyp, true);
 		omsgz("runSetStmt: stk = " + stkidx + ", addr = " + addr);
 		omsg(", pgtyp = " + pgtyp);
+		if (!isExpr) { }
+		else if (!store.pushNode(srcNode)) {
+			return STKOVERFLOW;
+		}
 		return 0;
 	}
 	
