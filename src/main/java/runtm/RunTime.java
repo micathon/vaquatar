@@ -849,6 +849,7 @@ public class RunTime implements IConst, RunConst {
 		case ZQUEST:
 		case TUPLE:
 			return 0;
+		case DOT: return runop.runDotStmt();
 		case SWITCH:
 			return rfc.runSwitchStmt(); // don't need, just return 0?
 		case UNTIL:
@@ -1018,6 +1019,9 @@ public class RunTime implements IConst, RunConst {
 		case TUPLE:
 			rightp = pushTupleStmt(node);
 			break;
+		case DOT:
+			rightp = pushDotStmt(node);
+			break;
 		default: return BADSTMT;
 		}
 		isForContinue = false;
@@ -1150,6 +1154,15 @@ public class RunTime implements IConst, RunConst {
 		rightp = handleLeafTokenQuote(node);  // handle target expr.
 		if (rightp != 0) {
 			return BADINCDECSTMT;
+		}
+		return 0;
+	}
+	
+	private int pushDotStmt(Node node) {
+		KeywordTyp kwtyp = KeywordTyp.DOT;
+		
+		if (!pushOp(kwtyp)) {
+			return STKOVERFLOW;
 		}
 		return 0;
 	}

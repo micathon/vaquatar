@@ -1563,6 +1563,10 @@ public class RunOperators implements IConst, RunConst {
 		return flag;
 	}
 	
+	public int runDotStmt() {
+		return 0;
+	}
+	
 	private int getIntOffStk(int stkidx) {
 		return pp.getIntOffStk(stkidx);
 	}
