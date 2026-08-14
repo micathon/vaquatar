@@ -8,11 +8,14 @@ defun (f x) (var a b g y) do (
   println "f: top";
   : a b (g 0 x);
   println "f: mid";
-  #set x (: a (g x 99));
+  set x (: a (g x 99));
+  println "f: x =" x;
   println "f: btm";
 );
 defun (g y x) do (
   println "g: top";
-  return 0;
+  set y 88;
+  println "g: y =" y;
+  return 357;
 )
 
