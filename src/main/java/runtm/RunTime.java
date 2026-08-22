@@ -53,12 +53,18 @@ public class RunTime implements IConst, RunConst {
 	private Config cfg;
 	private RunUTime ut;
 	private static final char SP = ' ';
+	public ArrayList<String> utKeyValList;
 	public HashMap<String, Integer> glbFunMap;
 	public HashMap<String, Integer> glbLocVarMap;
 	public ArrayList<Integer> glbFunList;
 	public ArrayList<Integer> glbLocVarList;
 	public ArrayList<String> glbFuncNames;
-	public ArrayList<String> utKeyValList;
+	public HashMap<String, Integer> clsMethMap;
+	public HashMap<String, Integer> clsLocVarMap;
+	public ArrayList<Integer> clsMethList;
+	public ArrayList<Integer> clsLocVarList;
+	public ArrayList<String> clsMethNames;
+	public ArrayList<String> clsNames;
 
 	public RunTime(Store store, ScanSrc scanSrc, SynChk synChk, Config cfg) {
 		this.store = store;
@@ -84,12 +90,18 @@ public class RunTime implements IConst, RunConst {
 		isWhileUntil = false;
 		isForContinue = false;
 		isNakedKwd = true;
+		utKeyValList = new ArrayList<String>();
 		glbFunMap = new HashMap<String, Integer>();
 		glbLocVarMap = new HashMap<String, Integer>();
 		glbFunList = new ArrayList<Integer>();
 		glbLocVarList = new ArrayList<Integer>();
 		glbFuncNames = new ArrayList<String>();
-		utKeyValList = new ArrayList<String>();
+		clsMethMap = new HashMap<String, Integer>();
+		clsLocVarMap = new HashMap<String, Integer>();
+		clsMethList = new ArrayList<Integer>();
+		clsLocVarList = new ArrayList<Integer>();
+		clsMethNames = new ArrayList<String>();
+		clsNames = new ArrayList<String>();
 	}
 	
 	public void setRscan(RunScanner rscan) {
