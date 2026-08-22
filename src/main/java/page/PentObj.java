@@ -11,6 +11,8 @@ public class PentObj {
 	private int superClsIdx;
 	private int pubFldCount;
 	private int prvFldCount;
+	private int pubMethCount;
+	private int prvMethCount;
 	public HashMap<String, Integer> fldMap;
 	public ArrayList<AddrNode> fldList;
 
@@ -20,6 +22,8 @@ public class PentObj {
 		superClsIdx = -1;
 		pubFldCount = 0;
 		prvFldCount = 0;
+		pubMethCount = 0;
+		prvMethCount = 0;
 		fldMap = new HashMap<String, Integer>();
 		fldList = new ArrayList<AddrNode>();
 	}
@@ -38,6 +42,8 @@ public class PentObj {
 		superClsIdx = pentClass.superClsIdx;
 		pubFldCount = pentClass.pubFldCount;
 		prvFldCount = pentClass.prvFldCount;
+		//pubMethCount = pentClass.pubMethCount; // ??
+		//prvMethCount = pentClass.prvMethCount;
 		fldCount = pubFldCount + prvFldCount;
 		fldMap = new HashMap<String, Integer>();
 		fldList = new ArrayList<AddrNode>();
