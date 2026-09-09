@@ -16,14 +16,14 @@
 * Click on Steps
 # Summary
 * Pentalyst console-mode compiler:
-  * By end of 2026
+  * By early 2027
 * Pentalyst GUI-mode compiler
   * Begin using AI coding assistant
 * Pentalyst client
   * By late 2027
 * Beta testers:
   * Testing occurs Q4 2027
-  * Pentalsite (web) programmers: front and back end
+  * Pentalyst/Python programmers
   * End-users
 * Launch website
   * By early 2028
